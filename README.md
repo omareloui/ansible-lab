@@ -1,34 +1,30 @@
-# 🐧 Ansible Lab with Docker & Docker Compose
+# Ansible Lab with Docker & Docker Compose
 
 Spin up a lightweight local Ansible lab using Docker and Docker Compose — no
 VMs, no cloud, just containers.
 
-## 🚀 Features
+## Features
 
 - 1x Control node with Ansible installed
 - 2x Managed nodes with SSH access
 - Uses Docker's internal networking for clean communication
 - One-command bootstrap using `make`
 
-## 📂 Project Structure
-
-```text
-ansible-lab/
-├── docker-compose.yml       # Container definitions
-├── inventory.ini            # Ansible inventory for managed nodes
-├── Makefile                 # Automation for setup and testing
-└── README.md                # This file
-```
-
-## ⚙️ Requirements
+## Requirements
 
 - Docker
 - Docker Compose
 - `make`
 
-## 🛠️ Usage
+## Usage
 
 Clone the repo, then:
+
+```bash
+make
+```
+
+### Available Commands
 
 ```bash
 make up           # Start containers
@@ -39,7 +35,7 @@ make down         # Stop all containers
 make clean        # Full cleanup including SSH keys
 ```
 
-## 🧪 Example Ansible Test
+## Example Ansible Test
 
 ```bash
 ansible -i inventory.ini all -m ping
@@ -52,13 +48,13 @@ ansible_node1 | SUCCESS => {...}
 ansible_node2 | SUCCESS => {...}
 ```
 
-## 📦 Notes
+## Notes
 
 - Containers communicate via Docker internal DNS (`ansible_node1`, `ansible_node2`).
 - SSH key auth is set up automatically via `ssh-copy-id` from the control node.
 - Managed nodes use the `root` user with password `root`.
 
-## 🙋 FAQ
+## FAQ
 
 **Q: Why not use localhost and mapped ports?**  
 A: Inside Docker, `localhost` refers to the container itself. We connect via
@@ -70,11 +66,11 @@ expose a new port, and update `Makefile` + `inventory.ini`.
 
 ---
 
-### 🧼 When You're Done
+### When You're Done
 
 ```bash
+make clean   # Removes SSH keys from control node and stops the containers
 make down    # Stop containers
-make clean   # Also removes SSH keys from control node
 ```
 
 ---
