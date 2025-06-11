@@ -12,8 +12,7 @@ VMs, no cloud, just containers.
 
 ## Requirements
 
-- Docker
-- Docker Compose
+- Docker and Docker Compose installed
 - `make`
 
 ## Usage
@@ -38,7 +37,8 @@ make clean        # Full cleanup including SSH keys
 ## Example Ansible Test
 
 ```bash
-ansible -i inventory.ini all -m ping
+docker exec -it ansible_control bash -c "ansible -i inventory.ini all -m ping"
+# or `make ping`
 ```
 
 Expected output:
@@ -53,16 +53,6 @@ ansible_node2 | SUCCESS => {...}
 - Containers communicate via Docker internal DNS (`ansible_node1`, `ansible_node2`).
 - SSH key auth is set up automatically via `ssh-copy-id` from the control node.
 - Managed nodes use the `root` user with password `root`.
-
-## FAQ
-
-**Q: Why not use localhost and mapped ports?**  
-A: Inside Docker, `localhost` refers to the container itself. We connect via
-container names using Docker’s internal DNS.
-
-**Q: Can I add more managed nodes?**  
-A: Yep — just duplicate one of the `node` services in `docker-compose.yml`,
-expose a new port, and update `Makefile` + `inventory.ini`.
 
 ---
 
