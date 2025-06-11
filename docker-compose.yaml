@@ -1,0 +1,27 @@
+services:
+  control:
+    image: python:3.10
+    container_name: ansible_control
+    volumes:
+      - ./control:/ansible
+    working_dir: /ansible
+    command: tail -f /dev/null
+    depends_on:
+      - node1
+      - node2
+
+  node1:
+    image: rastasheep/ubuntu-sshd:18.04
+    container_name: ansible_node1
+    environment:
+      - ROOT_PASSWORD=root
+    ports:
+      - "2222:22"
+
+  node2:
+    image: rastasheep/ubuntu-sshd:18.04
+    container_name: ansible_node2
+    environment:
+      - ROOT_PASSWORD=root
+    ports:
+      - "2223:22"
